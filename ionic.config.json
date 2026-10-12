@@ -1,0 +1,8 @@
+{
+  "name": "eayni-app",
+  "app_id": "",
+  "type": "angular-standalone",
+  "integrations": {
+    "capacitor": {}
+  }
+}

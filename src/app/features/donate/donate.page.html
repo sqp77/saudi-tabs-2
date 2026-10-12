@@ -1,0 +1,235 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="back()" [attr.aria-label]="'common.back' | t"><ion-icon slot="icon-only" [name]="step() === 0 ? 'close' : (i18n.isRtl() ? 'arrow-forward' : 'arrow-back')"></ion-icon></ion-button>
+    </ion-buttons>
+    <div class="stepper" role="progressbar" [attr.aria-valuenow]="step() + 1" [attr.aria-valuemax]="steps.length">
+      @for (s of steps; track s; let i = $index) {
+        <button type="button" class="stepper__dot" [class.active]="i === step()" [class.done]="i < step()" (click)="goTo(i)" [attr.aria-label]="('donate.step.' + s) | t"></button>
+      }
+    </div>
+    <ion-buttons slot="end"><span class="stepcount">{{ 'donate.step.of' | t: { current: step() + 1, total: steps.length } }}</span></ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [class.map-step]="step() === 2">
+  @if (restored()) {
+    <div class="eayni-page">
+      <div class="eayni-note eayni-note--info restored">
+        <ion-icon name="refresh-circle-outline"></ion-icon>
+        <span class="eayni-space">{{ 'donate.draft.restored' | t }}</span>
+        <button type="button" class="link" (click)="discardDraft()">{{ 'donate.draft.discard' | t }}</button>
+      </div>
+    </div>
+  }
+
+  <!-- STEP 1: categories -->
+  @if (step() === 0) {
+    <div class="eayni-page step eayni-fade-up">
+      <h1>{{ 'donate.categories.title' | t }}</h1>
+      <p class="eayni-muted">{{ 'donate.categories.subtitle' | t }}</p>
+
+      @if (loadingCats()) {
+        <div class="eayni-grid-2"><div class="sk"></div><div class="sk"></div><div class="sk"></div><div class="sk"></div></div>
+      } @else if (!categories().length) {
+        <div class="eayni-note"><ion-icon name="information-circle-outline"></ion-icon><span>{{ 'donate.categories.empty' | t }}</span></div>
+      } @else {
+        <div class="groups">
+          @for (g of categories(); track g.id) {
+            <section class="group" [class.open]="openGroup() === g.id">
+              <button type="button" class="group__head" (click)="toggleGroup(g.id)" [attr.aria-expanded]="openGroup() === g.id">
+                <span class="group__icon">@if (g.image) { <img [src]="g.image" alt="" /> } @else { <ion-icon [name]="iconFor(g)"></ion-icon> }</span>
+                <span class="group__name">{{ catName(g) }}</span>
+                @if (selectedInGroup(g.id)) { <span class="group__count">{{ i18n.formatNumber(selectedInGroup(g.id)) }}</span> }
+                <ion-icon class="group__chev" [name]="openGroup() === g.id ? 'chevron-up' : 'chevron-down'"></ion-icon>
+              </button>
+              @if (openGroup() === g.id) {
+                <div class="opts eayni-fade-up">
+                  @for (o of g.items; track o.id) {
+                    <div class="opt" [class.selected]="isSelected(o.id)">
+                      <button type="button" class="opt__main" (click)="toggle(g, o)" [attr.aria-pressed]="isSelected(o.id)">
+                        <span class="opt__icon">@if (o.image) { <img [src]="o.image" alt="" loading="lazy" /> } @else { <ion-icon [name]="iconFor(g)"></ion-icon> }</span>
+                        <span class="opt__text">
+                          <span class="opt__name">{{ optName(o) }}</span>
+                          @if (o.reward) { <span class="opt__reward"><ion-icon name="leaf"></ion-icon> +{{ i18n.formatNumber(o.reward) }} {{ 'rewards.cost' | t: { points: '' } }}</span> }
+                        </span>
+                        <span class="opt__check"><ion-icon name="checkmark"></ion-icon></span>
+                      </button>
+                      @if (isSelected(o.id)) {
+                        <div class="opt__extra eayni-fade-up">
+                          <div class="qty">
+                            <span class="qty__label">{{ 'donate.categories.qty' | t }}</span>
+                            <div class="qty__ctrl">
+                              <button type="button" (click)="setQty(o.id, -1)" aria-label="-"><ion-icon name="remove"></ion-icon></button>
+                              <span>{{ i18n.formatNumber(qtyOf(o.id)) }}</span>
+                              <button type="button" (click)="setQty(o.id, 1)" aria-label="+"><ion-icon name="add"></ion-icon></button>
+                            </div>
+                          </div>
+                          <input class="eayni-input" type="text" [placeholder]="'donate.categories.noteHint' | t" [value]="noteOf(o.id)" (input)="setNote(o.id, $any($event.target).value)" maxlength="60" />
+                        </div>
+                      }
+                    </div>
+                  }
+                </div>
+              }
+            </section>
+          }
+        </div>
+      }
+    </div>
+  }
+
+  <!-- STEP 2: details -->
+  @if (step() === 1) {
+    <div class="eayni-page step eayni-fade-up">
+      <h1>{{ 'donate.details.title' | t }}</h1>
+      <p class="eayni-muted">{{ 'donate.details.subtitle' | t }}</p>
+
+      <div class="photos">
+        @for (url of draft().images; track url) {
+          <div class="photo"><img [src]="url" alt="" /><button type="button" (click)="removePhoto(url)" [attr.aria-label]="'common.delete' | t"><ion-icon name="close"></ion-icon></button></div>
+        }
+        @for (n of [].constructor(uploading()); track $index) {
+          <div class="photo photo--loading"><ion-spinner name="crescent"></ion-spinner></div>
+        }
+        @if (draft().images.length + uploading() < maxPhotos) {
+          <button type="button" class="photo photo--add" (click)="pickPhotos(fileInput)">
+            <ion-icon name="camera-outline"></ion-icon>
+            <span>{{ 'donate.details.addPhoto' | t }}</span>
+          </button>
+        }
+        <input #fileInput type="file" accept="image/*" multiple hidden (change)="onFiles($event)" />
+      </div>
+      <p class="eayni-small eayni-muted">{{ 'donate.details.photosHint' | t: { max: maxPhotos } }} · {{ 'common.optional' | t }}</p>
+
+      <div class="eayni-field">
+        <label for="instr">{{ 'donate.details.instructions' | t }} <span class="eayni-muted">({{ 'common.optional' | t }})</span></label>
+        <textarea id="instr" class="eayni-input" [placeholder]="'donate.details.instructionsHint' | t" [value]="draft().instructions" (input)="setInstructions($any($event.target).value)" maxlength="300"></textarea>
+      </div>
+
+      <div class="eayni-field">
+        <label for="phone">{{ 'donate.details.phone' | t }}</label>
+        <input id="phone" class="eayni-input" type="tel" inputmode="tel" dir="ltr" [value]="draft().phone" (input)="setPhone($any($event.target).value)" [class.eayni-input--error]="draft().phone && !phoneValid()" />
+        <span class="eayni-small eayni-muted">{{ 'donate.details.phoneHint' | t }}</span>
+      </div>
+    </div>
+  }
+
+  <!-- STEP 3: location -->
+  @if (step() === 2) {
+    <div class="loc">
+      <div class="loc__map">
+        <app-map [center]="mapCenter()" [zoom]="15" [pinMode]="true" (centerChange)="onCenterChange($event)" (ready)="onMapReady()">
+          <button type="button" class="locate" (click)="detect()" [disabled]="locating()" [attr.aria-label]="'donate.location.detect' | t">
+            @if (locating()) { <ion-spinner name="crescent"></ion-spinner> } @else { <ion-icon name="locate"></ion-icon> }
+          </button>
+        </app-map>
+        <div class="loc__hint">
+          <ion-icon name="move-outline"></ion-icon>{{ 'donate.location.subtitle' | t }}
+        </div>
+      </div>
+
+      <div class="loc__sheet">
+        <div class="eayni-page">
+          <h1>{{ 'donate.location.title' | t }}</h1>
+          @if (permissionDenied()) { <div class="eayni-note"><ion-icon name="alert-circle-outline"></ion-icon><span>{{ 'donate.location.permissionDenied' | t }}</span></div> }
+
+          @if (savedPlaces().length) {
+            <div class="places">
+              @for (p of savedPlaces(); track p.id) {
+                <button type="button" class="place" (click)="usePlace(p)">
+                  <ion-icon [name]="p.kind === 'home' ? 'home-outline' : p.kind === 'work' ? 'briefcase-outline' : 'bookmark-outline'"></ion-icon>{{ p.label }}
+                </button>
+              }
+            </div>
+          }
+
+          <div class="eayni-grid-2">
+            <div class="eayni-field">
+              <label for="region">{{ 'donate.location.region' | t }}</label>
+              <select id="region" class="eayni-input" [value]="draft().regionId" (change)="setRegion($any($event.target).value)">
+                <option value="" disabled>{{ 'donate.location.chooseRegion' | t }}</option>
+                @for (r of regions(); track r.id) { <option [value]="r.id">{{ regionName(r) }}</option> }
+              </select>
+            </div>
+            <div class="eayni-field">
+              <label for="city">{{ 'donate.location.city' | t }}</label>
+              <select id="city" class="eayni-input" [value]="draft().cityId" (change)="setCity($any($event.target).value)" [disabled]="!cities().length">
+                <option value="" disabled>{{ 'donate.location.chooseCity' | t }}</option>
+                @for (c of cities(); track c.id) { <option [value]="c.id">{{ cityName(c) }}</option> }
+              </select>
+            </div>
+          </div>
+
+          <div class="eayni-field">
+            <label for="addr">{{ 'donate.location.address' | t }} @if (resolving()) { <ion-spinner name="dots" class="inline-spin"></ion-spinner> }</label>
+            <input id="addr" class="eayni-input" [placeholder]="'donate.location.addressHint' | t" [value]="draft().address" (input)="setAddress($any($event.target).value)" maxlength="200" />
+          </div>
+          <div class="eayni-field">
+            <label for="addr2">{{ 'donate.location.address2' | t }} <span class="eayni-muted">({{ 'common.optional' | t }})</span></label>
+            <input id="addr2" class="eayni-input" [value]="draft().address2" (input)="setAddress2($any($event.target).value)" maxlength="100" />
+          </div>
+          @if (draft().location) {
+            <button type="button" class="link" (click)="savePlace()"><ion-icon name="bookmark-outline"></ion-icon> {{ 'donate.location.saveAs' | t }}</button>
+          }
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- STEP 4: review -->
+  @if (step() === 3) {
+    <div class="eayni-page step eayni-fade-up">
+      <h1>{{ 'donate.review.title' | t }}</h1>
+      <p class="eayni-muted">{{ 'donate.review.subtitle' | t }}</p>
+
+      <section class="eayni-card review">
+        <header><ion-icon name="shirt-outline"></ion-icon><h3>{{ 'donate.review.items' | t }}</h3><button type="button" class="link" (click)="step.set(0)">{{ 'common.edit' | t }}</button></header>
+        <ul>
+          @for (it of draft().items; track it.itemId) {
+            <li><span>{{ i18n.lang() === 'ar' ? it.itemNameAr : it.itemNameEn }}@if (it.note) { <small> — {{ it.note }}</small> }<small class="cat"> · {{ it.categoryName }}</small></span><strong>×{{ i18n.formatNumber(it.quantity) }}</strong></li>
+          }
+        </ul>
+        @if (expectedReward() > 0) {
+          <p class="reward-line"><ion-icon name="leaf"></ion-icon> {{ 'donate.review.expectedPoints' | t: { points: i18n.formatNumber(expectedReward()) } }}</p>
+        }
+      </section>
+
+      <section class="eayni-card review">
+        <header><ion-icon name="location-outline"></ion-icon><h3>{{ 'donate.review.pickup' | t }}</h3><button type="button" class="link" (click)="step.set(2)">{{ 'common.edit' | t }}</button></header>
+        <div class="review__map">
+          @if (draft().location; as loc) {
+            <app-map [center]="loc" [zoom]="15" [interactive]="false" [markers]="[{ id: 'p', position: loc, kind: 'pickup' }]"></app-map>
+          }
+        </div>
+        <p>{{ draft().cityName }}@if (draft().regionName) {, {{ draft().regionName }}}</p>
+        @if (draft().address) { <p class="eayni-muted">{{ draft().address }}@if (draft().address2) { · {{ draft().address2 }}}</p> }
+      </section>
+
+      <section class="eayni-card review">
+        <header><ion-icon name="call-outline"></ion-icon><h3>{{ 'donate.review.contact' | t }}</h3><button type="button" class="link" (click)="step.set(1)">{{ 'common.edit' | t }}</button></header>
+        <p dir="ltr" class="ltr">{{ draft().phone }}</p>
+        @if (draft().instructions) { <p class="eayni-muted">{{ draft().instructions }}</p> }
+        @if (draft().images.length) {
+          <div class="thumbs">@for (u of draft().images; track u) { <img [src]="u" alt="" /> }</div>
+        }
+      </section>
+
+      <div class="eayni-note eayni-note--info"><ion-icon name="leaf-outline"></ion-icon><span>{{ 'donate.success.points' | t }}</span></div>
+    </div>
+  }
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <div class="eayni-sticky-footer">
+    @if (step() < steps.length - 1) {
+      <ion-button expand="block" class="eayni-btn" (click)="next()" [disabled]="!canNext()">
+        {{ 'common.continue' | t }}@if (step() === 0 && selectedCount()) { <span class="count">{{ 'donate.categories.selectedCount' | t: { count: i18n.formatNumber(selectedCount()) } }}</span> }
+      </ion-button>
+    } @else {
+      <ion-button expand="block" class="eayni-btn" (click)="submit()" [disabled]="submitting()">
+        @if (submitting()) { <ion-spinner name="crescent"></ion-spinner>&nbsp;{{ 'donate.review.submitting' | t }} } @else { {{ 'donate.review.submit' | t }} }
+      </ion-button>
+    }
+  </div>
+</ion-footer>

@@ -1,0 +1,185 @@
+// EAYNI design tokens (loaded AFTER global.scss so they override Ionic core.css :root defaults)
+// --------------------------------------------------------------------------
+// Saudi-inspired environmental palette: deep palm green, oasis mint, desert
+// sand neutrals. Tokens are exposed as CSS variables so components stay
+// framework-agnostic; dark mode overrides live under `.ion-palette-dark`.
+
+:root {
+  // Brand
+  --ion-color-primary: #0e7a4f;
+  --ion-color-primary-rgb: 14, 122, 79;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #0c6b46;
+  --ion-color-primary-tint: #268761;
+
+  --ion-color-secondary: #1db47a;
+  --ion-color-secondary-rgb: 29, 180, 122;
+  --ion-color-secondary-contrast: #06251a;
+  --ion-color-secondary-contrast-rgb: 6, 37, 26;
+  --ion-color-secondary-shade: #1a9e6b;
+  --ion-color-secondary-tint: #34bc87;
+
+  --ion-color-tertiary: #c9a35b; // desert gold
+  --ion-color-tertiary-rgb: 201, 163, 91;
+  --ion-color-tertiary-contrast: #1f1a0e;
+  --ion-color-tertiary-contrast-rgb: 31, 26, 14;
+  --ion-color-tertiary-shade: #b18f50;
+  --ion-color-tertiary-tint: #ceac6b;
+
+  --ion-color-success: #1f9d5a;
+  --ion-color-success-rgb: 31, 157, 90;
+  --ion-color-success-contrast: #ffffff;
+  --ion-color-success-contrast-rgb: 255, 255, 255;
+  --ion-color-success-shade: #1b8a4f;
+  --ion-color-success-tint: #35a76b;
+
+  --ion-color-warning: #f0b232;
+  --ion-color-warning-rgb: 240, 178, 50;
+  --ion-color-warning-contrast: #1f1a0e;
+  --ion-color-warning-contrast-rgb: 31, 26, 14;
+  --ion-color-warning-shade: #c58f20;
+  --ion-color-warning-tint: #f2ba47;
+
+  --ion-color-danger: #d64545;
+  --ion-color-danger-rgb: 214, 69, 69;
+  --ion-color-danger-contrast: #ffffff;
+  --ion-color-danger-contrast-rgb: 255, 255, 255;
+  --ion-color-danger-shade: #bc3d3d;
+  --ion-color-danger-tint: #da5858;
+
+  --ion-color-medium: #7d8a84;
+  --ion-color-medium-rgb: 125, 138, 132;
+  --ion-color-medium-contrast: #ffffff;
+  --ion-color-medium-contrast-rgb: 255, 255, 255;
+  --ion-color-medium-shade: #6e7974;
+  --ion-color-medium-tint: #8a9690;
+
+  --ion-color-light: #f4f7f4;
+  --ion-color-light-rgb: 244, 247, 244;
+  --ion-color-light-contrast: #0b1611;
+  --ion-color-light-contrast-rgb: 11, 22, 17;
+  --ion-color-light-shade: #d7d9d7;
+  --ion-color-light-tint: #f5f8f5;
+
+  --ion-color-dark: #0b1611;
+  --ion-color-dark-rgb: 11, 22, 17;
+  --ion-color-dark-contrast: #ffffff;
+  --ion-color-dark-contrast-rgb: 255, 255, 255;
+  --ion-color-dark-shade: #0a130f;
+  --ion-color-dark-tint: #232d29;
+
+  // Surfaces & text (app tokens)
+  --eayni-bg: #f4f7f4;
+  --eayni-surface: #ffffff;
+  --eayni-surface-2: #eaf0ec;
+  --eayni-border: #e1e8e3;
+  --eayni-text: #0f1f18;
+  --eayni-text-2: #4d5c55;
+  --eayni-text-3: #8a9690;
+  --eayni-sand: #f6f1e7;
+  --eayni-radius: 18px;
+  --eayni-radius-sm: 12px;
+  --eayni-shadow: 0 8px 24px rgba(14, 40, 28, 0.08);
+  --eayni-shadow-lg: 0 18px 48px rgba(14, 40, 28, 0.16);
+
+  // Ionic surface mapping
+  --ion-background-color: var(--eayni-bg);
+  --ion-background-color-rgb: 244, 247, 244;
+  --ion-text-color: var(--eayni-text);
+  --ion-text-color-rgb: 15, 31, 24;
+  --ion-toolbar-background: var(--eayni-bg);
+  --ion-toolbar-color: var(--eayni-text);
+  --ion-item-background: var(--eayni-surface);
+  --ion-card-background: var(--eayni-surface);
+  --ion-tab-bar-background: color-mix(in srgb, var(--eayni-surface) 92%, transparent);
+  --ion-tab-bar-color: var(--eayni-text-3);
+  --ion-tab-bar-color-selected: var(--ion-color-primary);
+  --ion-border-color: var(--eayni-border);
+
+  --ion-font-family: 'IBM Plex Sans Arabic', 'Tajawal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans Arabic', 'Helvetica Neue', Arial, sans-serif;
+}
+
+html.ion-palette-dark {
+  --eayni-bg: #0b1611;
+  --eayni-surface: #132019;
+  --eayni-surface-2: #1b2b23;
+  --eayni-border: #22362c;
+  --eayni-text: #eef5f0;
+  --eayni-text-2: #a9b8b0;
+  --eayni-text-3: #71837a;
+  --eayni-sand: #1f2a22;
+  --eayni-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  --eayni-shadow-lg: 0 18px 48px rgba(0, 0, 0, 0.5);
+
+  --ion-color-primary: #35c184;
+  --ion-color-primary-rgb: 53, 193, 132;
+  --ion-color-primary-contrast: #06251a;
+  --ion-color-primary-contrast-rgb: 6, 37, 26;
+  --ion-color-primary-shade: #2eaa74;
+  --ion-color-primary-tint: #49c790;
+
+  // Ionic's dark palette would otherwise swap these for its own blue/purple defaults.
+  --ion-color-secondary: #1db47a;
+  --ion-color-secondary-rgb: 29, 180, 122;
+  --ion-color-secondary-contrast: #06251a;
+  --ion-color-secondary-contrast-rgb: 6, 37, 26;
+  --ion-color-secondary-shade: #1a9e6b;
+  --ion-color-secondary-tint: #34bc87;
+
+  --ion-color-tertiary: #d9b46b;
+  --ion-color-tertiary-rgb: 217, 180, 107;
+  --ion-color-tertiary-contrast: #1f1a0e;
+  --ion-color-tertiary-contrast-rgb: 31, 26, 14;
+  --ion-color-tertiary-shade: #c9a35b;
+  --ion-color-tertiary-tint: #e0bf7f;
+
+  --ion-color-success: #35c184;
+  --ion-color-success-rgb: 53, 193, 132;
+  --ion-color-success-contrast: #06251a;
+  --ion-color-success-contrast-rgb: 6, 37, 26;
+  --ion-color-success-shade: #2eaa74;
+  --ion-color-success-tint: #49c790;
+
+  --ion-color-warning: #f0b232;
+  --ion-color-warning-rgb: 240, 178, 50;
+  --ion-color-warning-contrast: #1f1a0e;
+  --ion-color-warning-contrast-rgb: 31, 26, 14;
+  --ion-color-warning-shade: #d99f2c;
+  --ion-color-warning-tint: #f2ba47;
+
+  --ion-color-danger: #e45c5c;
+  --ion-color-danger-rgb: 228, 92, 92;
+  --ion-color-danger-contrast: #ffffff;
+  --ion-color-danger-contrast-rgb: 255, 255, 255;
+  --ion-color-danger-shade: #c95151;
+  --ion-color-danger-tint: #e76c6c;
+
+  --ion-color-light: #1b2b23;
+  --ion-color-light-rgb: 27, 43, 35;
+  --ion-color-light-contrast: #eef5f0;
+  --ion-color-light-contrast-rgb: 238, 245, 240;
+  --ion-color-light-shade: #18261f;
+  --ion-color-light-tint: #324039;
+
+  --ion-color-dark: #eef5f0;
+  --ion-color-dark-rgb: 238, 245, 240;
+  --ion-color-dark-contrast: #0b1611;
+  --ion-color-dark-contrast-rgb: 11, 22, 17;
+  --ion-color-dark-shade: #d1d8d3;
+  --ion-color-dark-tint: #f0f6f2;
+
+  --ion-color-medium: #8a9690;
+  --ion-color-medium-contrast: #0b1611;
+
+  --ion-background-color: var(--eayni-bg);
+  --ion-background-color-rgb: 11, 22, 17;
+  --ion-text-color: var(--eayni-text);
+  --ion-text-color-rgb: 238, 245, 240;
+  --ion-toolbar-background: var(--eayni-bg);
+  --ion-toolbar-color: var(--eayni-text);
+  --ion-item-background: var(--eayni-surface);
+  --ion-card-background: var(--eayni-surface);
+  --ion-tab-bar-background: color-mix(in srgb, var(--eayni-surface) 92%, transparent);
+  --ion-border-color: var(--eayni-border);
+}

@@ -1,0 +1,1435 @@
+{
+  "info": {
+    "_postman_id": "b3efcb85-98e1-492a-b99b-cdd025738389",
+    "name": "Cient",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "3726325",
+    "_collection_link": "https://go.postman.co/collection/3726325-b3efcb85-98e1-492a-b99b-cdd025738389?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "auth",
+      "item": [
+        {
+          "name": "phone-signin",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "lan",
+                "value": "",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    // \"phone\" : \"0555930749\",\n    \"phone\" : \"0545545544\",\n    \"countryCode\" : \"972\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{CLIENT_URL}}/auth/phone-signin",
+              "host": [
+                "{{CLIENT_URL}}"
+              ],
+              "path": [
+                "auth",
+                "phone-signin"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "refresh-token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept-Language",
+                "value": "ar",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"refreshToken\" : \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWMxNTQxYzBlMGI5YWYyNTlmYTNkMDkiLCJ0eXBlIjoiY2xpZW50IiwiaWF0IjoxNzA3Nzk4Mjc2LCJleHAiOjE3MzkzNTU4NzZ9.KPuwkdTJCfNBOo6k7I6hqOWnjdkEpQpuS_o25mf9Uqs\",\n    \"fcm\" : \"df5ds6g514ds5g458dg4sad8g4dsa8g4\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{CLIENT_URL}}/auth/refresh-token",
+              "host": [
+                "{{CLIENT_URL}}"
+              ],
+              "path": [
+                "auth",
+                "refresh-token"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "phone-verify",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Parse JSON response",
+                  "let response = pm.response.json();",
+                  "",
+                  "// Save token from response (adjust key as needed)",
+                  "pm.environment.set(\"Token\", response.accessToken);",
+                  "",
+                  "// Optional: log it",
+                  "console.log(\"Saved token:\", response.accessToken);",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept-Language",
+                "value": "ar",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"phone\" : \"0555930749\",\n    // \"code\" : \"0713\",\n    \"code\" : \"1233\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{CLIENT_URL}}/auth/phone-verify",
+              "host": [
+                "{{CLIENT_URL}}"
+              ],
+              "path": [
+                "auth",
+                "phone-verify"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "- while using this service you should pass \"**client-auth-key**\" with headers\n- this endpoints allow clients to (login - signup - reset password) with thier accounts",
+      "auth": {
+        "type": "apikey",
+        "apikey": [
+          {
+            "key": "value",
+            "value": "123456",
+            "type": "string"
+          },
+          {
+            "key": "key",
+            "value": "client-auth-key",
+            "type": "string"
+          }
+        ]
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "public",
+      "item": [
+        {
+          "name": "Partners",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept-Language",
+                "value": "en",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{CLIENT_URL}}/public/partners?page=2",
+              "host": [
+                "{{CLIENT_URL}}"
+              ],
+              "path": [
+                "public",
+                "partners"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "2"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getCountryList",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept-Language",
+                "value": "",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{CLIENT_URL}}/public/country",
+              "host": [
+                "{{CLIENT_URL}}"
+              ],
+              "path": [
+                "public",
+                "country"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "order by code",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept-Language",
+                "value": "ar",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{CLIENT_URL}}/public/partners",
+              "host": [
+                "{{CLIENT_URL}}"
+              ],
+              "path": [
+                "public",
+                "partners"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Clients - only website",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept-Language",
+                "value": "",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{CLIENT_URL}}/public/clients",
+              "host": [
+                "{{CLIENT_URL}}"
+              ],
+              "path": [
+                "public",
+                "clients"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Ads - popup",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{CLIENT_URL}}/public/ad",
+              "host": [
+                "{{CLIENT_URL}}"
+              ],
+              "path": [
+                "public",
+                "ad"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Bunners",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{CLIENT_URL}}/public/bunners",
+              "host": [
+                "{{CLIENT_URL}}"
+              ],
+              "path": [
+                "public",
+                "bunners"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Sponsors",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept-Language",
+                "value": "ar",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{CLIENT_URL}}/public/sponsors?type=Golden",
+              "host": [
+                "{{CLIENT_URL}}"
+              ],
+              "path": [
+                "public",
+                "sponsors"
+              ],
+              "query": [
+                {
+                  "key": "type",
+                  "value": "Golden"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Social-services",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept-Language",
+                "value": "ar",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{CLIENT_URL}}/public/social-services?page=3",
+              "host": [
+                "{{CLIENT_URL}}"
+              ],
+              "path": [
+                "public",
+                "social-services"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "3",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "News - only website",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept-Language",
+                "value": "ar"
+              }
+            ],
+            "url": {
+              "raw": "{{CLIENT_URL}}/public/news",
+              "host": [
+                "{{CLIENT_URL}}"
+              ],
+              "path": [
+                "public",
+                "news"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "positive-reviews",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept-Language",
+                "value": "ar",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{CLIENT_URL}}/public/positive-reviews",
+              "host": [
+                "{{CLIENT_URL}}"
+              ],
+              "path": [
+                "public",
+                "positive-reviews"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Pages",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{CLIENT_URL}}/public/page?page=about",
+              "host": [
+                "{{CLIENT_URL}}"
+              ],
+              "path": [
+                "public",
+                "page"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "about",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Contacts",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{CLIENT_URL}}/public/contacts",
+              "host": [
+                "{{CLIENT_URL}}"
+              ],
+              "path": [
+                "public",
+                "contacts"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete account",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{CLIENT_URL}}/public/delete/account/",
+              "host": [
+                "{{CLIENT_URL}}"
+              ],
+              "path": [
+                "public",
+                "delete",
+                "account",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "cancellation-reasons",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{CLIENT_URL}}/public/cancellation-reasons",
+              "host": [
+                "{{CLIENT_URL}}"
+              ],
+              "path": [
+                "public",
+                "cancellation-reasons"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Items",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{CLIENT_URL}}/public/items",
+              "host": [
+                "{{CLIENT_URL}}"
+              ],
+              "path": [
+                "public",
+                "items"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Regions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept-Language",
+                "value": "ar",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{CLIENT_URL}}/public/regions",
+              "host": [
+                "{{CLIENT_URL}}"
+              ],
+              "path": [
+                "public",
+                "regions"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Cities",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{CLIENT_URL}}/public/regions/65ba8a3d584a2d51f2f1bc07/cities",
+              "host": [
+                "{{CLIENT_URL}}"
+              ],
+              "path": [
+                "public",
+                "regions",
+                "65ba8a3d584a2d51f2f1bc07",
+                "cities"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getAllCities",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{CLIENT_URL}}/public/all-cities",
+              "host": [
+                "{{CLIENT_URL}}"
+              ],
+              "path": [
+                "public",
+                "all-cities"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Submit Public Order",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"ahmedkhaled4d2@gmail.com\",\n    \"name\": \"ahmed\",\n    \"region\": \"65ba8a3d584a2d51f2f1bc07\",\n    \"city\": \"65ba8b0a63577a3ce4de8c83\",\n    \"location\": [\n        30.612515,\n        45.05151\n    ],\n    \"items\": [\n        {\n            \"category\": \"65bad2c376cd383ca5a72021\",\n            \"item_name_ar\": \"ملابس اطفال\",\n            \"item_name_en\": \"item 1\",\n            \"quantity\": 6\n        },\n         {\n            \"category\": \"65bad2c376cd383ca5a72021\",\n           \"item_name_ar\": \"  اطفال\",\n            \"item_name_en\": \"item 1\",\n            \"quantity\": 1\n        },\n         {\n            \"category\": \"65bad2c376cd383ca5a72021\",\n             \"item_name_ar\": \"ملابس  \",\n            \"item_name_en\": \"item 1\",\n            \"quantity\": 12\n        }\n    ],\n    \"images\" : [\"https://m.media-amazon.com/images/I/61GPzZfnPLL._AC_SX466_.jpg\",\"https://m.media-amazon.com/images/I/61kGjXr3VrL._AC_SX466_.jpg\"],\n    \"phone\": \"0565236523\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{CLIENT_URL}}/public/order/submit",
+              "host": [
+                "{{CLIENT_URL}}"
+              ],
+              "path": [
+                "public",
+                "order",
+                "submit"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Submit contact message",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"ahmedkhaled4d2@gmail.com\",\n    \"name\": \"ahmed\",\n    \"region\": \"65ba8a3d584a2d51f2f1bc07\",\n    \"city\": \"65ba8b0a63577a3ce4de8c83\",\n    \"location\": [\n        30.612515,\n        45.05151\n    ],\n    \"items\": [\n        {\n            \"category\": \"65bad2c376cd383ca5a72021\",\n            \"item_name\": \"ملابس اطفال\",\n            \"quantity\": 6\n        },\n         {\n            \"category\": \"65bad2c376cd383ca5a72021\",\n            \"item_name\": \"Blosa +A\",\n            \"quantity\": 7\n        },\n         {\n            \"category\": \"65bad2c376cd383ca5a72021\",\n            \"item_name\": \"T-shirt +C\",\n            \"quantity\": 12\n        }\n    ],\n    \"images\" : [\"https://m.media-amazon.com/images/I/61GPzZfnPLL._AC_SX466_.jpg\",\"https://m.media-amazon.com/images/I/61kGjXr3VrL._AC_SX466_.jpg\"],\n    \"phone\": \"0565236523\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{CLIENT_URL}}/public/contact/submit",
+              "host": [
+                "{{CLIENT_URL}}"
+              ],
+              "path": [
+                "public",
+                "contact",
+                "submit"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Payment-Callback",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"ahmedkhaled4d2@gmail.com\",\n    \"name\": \"ahmed\",\n    \"region\": \"65ba8a3d584a2d51f2f1bc07\",\n    \"city\": \"65ba8b0a63577a3ce4de8c83\",\n    \"location\": [\n        30.612515,\n        45.05151\n    ],\n    \"items\": [\n        {\n            \"category\": \"65bad2c376cd383ca5a72021\",\n            \"item_name\": \"ملابس اطفال\",\n            \"quantity\": 6\n        },\n         {\n            \"category\": \"65bad2c376cd383ca5a72021\",\n            \"item_name\": \"Blosa +A\",\n            \"quantity\": 7\n        },\n         {\n            \"category\": \"65bad2c376cd383ca5a72021\",\n            \"item_name\": \"T-shirt +C\",\n            \"quantity\": 12\n        }\n    ],\n    \"images\" : [\"https://m.media-amazon.com/images/I/61GPzZfnPLL._AC_SX466_.jpg\",\"https://m.media-amazon.com/images/I/61kGjXr3VrL._AC_SX466_.jpg\"],\n    \"phone\": \"0565236523\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{CLIENT_URL}}/public/payment/callback",
+              "host": [
+                "{{CLIENT_URL}}"
+              ],
+              "path": [
+                "public",
+                "payment",
+                "callback"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "account",
+      "item": [
+        {
+          "name": "Containers",
+          "item": [
+            {
+              "name": "Show all containers",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "page",
+                    "value": "2",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{CLIENT_URL}}/account/containers?lat=26.296640&long=50.205756",
+                  "host": [
+                    "{{CLIENT_URL}}"
+                  ],
+                  "path": [
+                    "account",
+                    "containers"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "2",
+                      "disabled": true
+                    },
+                    {
+                      "key": "lat",
+                      "value": "26.296640"
+                    },
+                    {
+                      "key": "long",
+                      "value": "50.205756"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "my container Activity",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "page",
+                    "value": "2",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{CLIENT_URL}}/account/containers/activity",
+                  "host": [
+                    "{{CLIENT_URL}}"
+                  ],
+                  "path": [
+                    "account",
+                    "containers",
+                    "activity"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "2",
+                      "disabled": true
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Container Activity",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "page",
+                    "value": "2",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    // actoins allowed [\"empty\", \"maintenance\", \"requested\"]\n    // Only for empty actions\n    // \"image3\" : \"https://www.containerstore.com/catalogimages/6996fb40c74216416a58585f/6996fb\",\n    // \"weight\" : \"100\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{CLIENT_URL}}/account/containers/:container/:action",
+                  "host": [
+                    "{{CLIENT_URL}}"
+                  ],
+                  "path": [
+                    "account",
+                    "containers",
+                    ":container",
+                    ":action"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "2",
+                      "disabled": true
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "key": "container",
+                      "value": "699ffc2c38c346df4ef11dc9"
+                    },
+                    {
+                      "key": "action",
+                      "value": "maintenance"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Loyality",
+          "item": [
+            {
+              "name": "rewards",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "page",
+                    "value": "2",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{CLIENT_URL}}/account/rewards",
+                  "host": [
+                    "{{CLIENT_URL}}"
+                  ],
+                  "path": [
+                    "account",
+                    "rewards"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "2",
+                      "disabled": true
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "redeemLoyalityPoints",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "page",
+                    "value": "2",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{CLIENT_URL}}/account/rewards/:reward/redeem",
+                  "host": [
+                    "{{CLIENT_URL}}"
+                  ],
+                  "path": [
+                    "account",
+                    "rewards",
+                    ":reward",
+                    "redeem"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "2",
+                      "disabled": true
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "key": "reward",
+                      "value": "699d7b5ff0cdf51798e01886"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "My Points",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "page",
+                    "value": "2",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{CLIENT_URL}}/account/points",
+                  "host": [
+                    "{{CLIENT_URL}}"
+                  ],
+                  "path": [
+                    "account",
+                    "points"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "2",
+                      "disabled": true
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "me",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{CLIENT_URL}}/account/me",
+              "host": [
+                "{{CLIENT_URL}}"
+              ],
+              "path": [
+                "account",
+                "me"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getDriversList",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{CLIENT_URL}}/account/drivers",
+              "host": [
+                "{{CLIENT_URL}}"
+              ],
+              "path": [
+                "account",
+                "drivers"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete  Account",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{CLIENT_URL}}/account",
+              "host": [
+                "{{CLIENT_URL}}"
+              ],
+              "path": [
+                "account"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Notifications",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept-Language",
+                "value": "ar",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{CLIENT_URL}}/account/notifications",
+              "host": [
+                "{{CLIENT_URL}}"
+              ],
+              "path": [
+                "account",
+                "notifications"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update profile information",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Ahmed Khaled\",\n    \"email\" : \"ahmedkhaled4d@gmail.com\",\n    // \"fcm\": \"\",\n    // \"os\" : \"ios\",\n    // \"app_version\": \"1.0.0\",\n    // \"language\" : \"en\",\n    \"location\": [\n        30.5251,\n        45.65454\n    ],        \n     \"avatar\": \"https://eayni-assets.s3.amazonaws.com/app/profiles/user5.jpg\"\n\n }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{CLIENT_URL}}/account/profile",
+              "host": [
+                "{{CLIENT_URL}}"
+              ],
+              "path": [
+                "account",
+                "profile"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "Sort of functionality that client can Fetch and control best on JWT token passed over headers\n\n- fetch rewards List items\n    \n- fetch transactions and points\n    \n- update profile\n    \n- update password\n    \n- update user location\n    \n- notifications",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "order",
+      "item": [
+        {
+          "name": "chat",
+          "item": [
+            {
+              "name": "Load Messages history",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{CLIENT_URL}}/order/698936734c9505a7af3dd938/chat",
+                  "host": [
+                    "{{CLIENT_URL}}"
+                  ],
+                  "path": [
+                    "order",
+                    "698936734c9505a7af3dd938",
+                    "chat"
+                  ],
+                  "query": [
+                    {
+                      "key": "status",
+                      "value": "order.client.send",
+                      "disabled": true
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "add New message",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n   \"text\" : \"???\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{CLIENT_URL}}/order/68a5c9c74c2e0e6727ed7c5d/chat",
+                  "host": [
+                    "{{CLIENT_URL}}"
+                  ],
+                  "path": [
+                    "order",
+                    "68a5c9c74c2e0e6727ed7c5d",
+                    "chat"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Check Order state / rate",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{CLIENT_URL}}/order/check",
+              "host": [
+                "{{CLIENT_URL}}"
+              ],
+              "path": [
+                "order",
+                "check"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Fetch My Orders",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{CLIENT_URL}}/order/?status=order.driver.completed",
+              "host": [
+                "{{CLIENT_URL}}"
+              ],
+              "path": [
+                "order",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "order.driver.completed"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Submit New Order",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"region\": \"65ba8a3d584a2d51f2f1bc07\",\n    \"city\": \"65ba8b0a63577a3ce4de8c83\",\n    \"location\": [\n       30.950531,\n       30.060299\n    ],\n    \"items\": [\n        {\n            \"category\": \"65bad2c376cd383ca5a72021\",\n            \"item_name_ar\": \"ملابس اطفال\",\n            \"item_name_en\": \"item 1\",\n            \"quantity\": 6\n        },\n         {\n            \"category\": \"65bad2c376cd383ca5a72021\",\n           \"item_name_ar\": \"  اطفال\",\n            \"item_name_en\": \"item 1\",\n            \"quantity\": 1\n        },\n         {\n            \"category\": \"65bad2c376cd383ca5a72021\",\n             \"item_name_ar\": \"ملابس  \",\n            \"item_name_en\": \"item 1\",\n            \"quantity\": 12\n        }\n    ],\n    \"address\":\"23 alnahr\",\n    \"address2\":\"54AL356\",\n    \"images\" : [\"https://m.media-amazon.com/images/I/61GPzZfnPLL._AC_SX466_.jpg\",\"https://m.media-amazon.com/images/I/61kGjXr3VrL._AC_SX466_.jpg\"],\n    \"phone\": \"0565236523\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{CLIENT_URL}}/order/submit",
+              "host": [
+                "{{CLIENT_URL}}"
+              ],
+              "path": [
+                "order",
+                "submit"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Submit Order Rate",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"stars\":1,\n    \"review\" : \"سي جدا في المعامله\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{CLIENT_URL}}/order/65c16953b805d0d0078dcaee/rate",
+              "host": [
+                "{{CLIENT_URL}}"
+              ],
+              "path": [
+                "order",
+                "65c16953b805d0d0078dcaee",
+                "rate"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "geocode Address",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"type\" : \"\",\n    \"coordinates\" : [-122.406417,37.785834]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{CLIENT_URL}}/order/geo/address",
+              "host": [
+                "{{CLIENT_URL}}"
+              ],
+              "path": [
+                "order",
+                "geo",
+                "address"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Order Data",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"region\": \"65ba8a3d584a2d51f2f1bc07\",\n    \"city\": \"65ba8afcf7642f7afc8ad30b\",\n    \"location\": [\n        30.612515,\n        45.05151\n    ],\n    \"items\": [\n        {\n            \"item_name\": \"rrrrrr\",\n            \"category\": \"65bad2c376cd383ca5a72021\",\n            \"quantity\": 50\n        },\n        {\n            \"item_name\": \"Blosa +A\",\n            \"category\": \"65bad2c376cd383ca5a72021\",\n            \"quantity\": 1\n        },\n        {\n            \"category\": \"65bad2c376cd383ca5a72021\",\n            \"item_name\": \"T-shirt +C\",\n            \"quantity\": 5\n        }\n    ],\n    \"phone\": \"0532659878\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{CLIENT_URL}}/order/65bfdd6a14653c33663662ac",
+              "host": [
+                "{{CLIENT_URL}}"
+              ],
+              "path": [
+                "order",
+                "65bfdd6a14653c33663662ac"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Order - soft",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\" : \"NO reason \"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{CLIENT_URL}}/order/65dd3357a1f9d8cc9af516af",
+              "host": [
+                "{{CLIENT_URL}}"
+              ],
+              "path": [
+                "order",
+                "65dd3357a1f9d8cc9af516af"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "sort all requests functions could be happend\n\n- check client request availability -> wil return the cost for invoice (0SAR)\n    \n- Submit a new request\n    \n- Rate a previous request",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "health",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{CLIENT_URL}}/health",
+          "host": [
+            "{{CLIENT_URL}}"
+          ],
+          "path": [
+            "health"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Upload S3",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file",
+              "src": [
+                "1.png",
+                "2.png",
+                "3.png"
+              ]
+            },
+            {
+              "key": "file",
+              "type": "file",
+              "uuid": "cc2f9b80-4178-434c-b998-8f69aa07fe08",
+              "src": "3.png"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{SERVICE_URL}}/upload?path=eayni",
+          "host": [
+            "{{SERVICE_URL}}"
+          ],
+          "path": [
+            "upload"
+          ],
+          "query": [
+            {
+              "key": "path",
+              "value": "eayni"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "FCM",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"action\" : \"toDeviceToken\",\n    \"payload\" : {\n        \"token\" : \"8425C94FE0BA30988E2F9C3F0A65F9964A4FFAF1235228F73C5C96460BE77E11\",\n        \"notification\" : {\n            \"title\" : \"test1\",\n            \"body\" : \"test2\",\n            \"image\" : \"https://eayni-assets.s3.amazonaws.com/2024/02/28/Vv9ccy4C8qfZaReX.PNG\"\n        }\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{SERVICE_URL}}/fcm",
+          "host": [
+            "{{SERVICE_URL}}"
+          ],
+          "path": [
+            "fcm"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "submit",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{CLIENT_URL}}/submit",
+          "host": [
+            "{{CLIENT_URL}}"
+          ],
+          "path": [
+            "submit"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{Token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ]
+}
